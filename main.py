@@ -16,6 +16,10 @@
 #
 import webapp2
 
+from lib.database.model import Group
+from lib.database.model import User
+
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write('Hello world!')

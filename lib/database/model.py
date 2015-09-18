@@ -41,8 +41,6 @@ class User(webapp2_extras.appengine.auth.models.User):
         return None, None
 
 
-
-
 class Group(ndb.Model):
     name = ndb.StringProperty()
     description = ndb.TextProperty()
@@ -57,3 +55,7 @@ class Event(ndb.Model):
     startDate = ndb.DateTimeProperty()
     endDate = ndb.DateTimeProperty()
 
+class Message(ndb.Model):
+    user = ndb.UserProperty()
+    created = ndb.DateTimeProperty(auto_now_add=True)
+    text = ndb.TextProperty()

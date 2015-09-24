@@ -263,7 +263,7 @@ class LogoutHandler(BaseHandler):
 class AuthenticatedHandler(BaseHandler):
   @user_required
   def get(self):
-    self.render_template('authenticated.html')
+    self.render_template('myself.html')
 
 config = {
   'webapp2_extras.auth': {

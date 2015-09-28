@@ -1,0 +1,18 @@
+{% extends "main.html" %}
+
+{% block title %}Supertiny Groupware - List Groups{% endblock %}
+
+{% block maincontent %}
+
+<h1>List of groups</h1>
+
+<div class="group">
+{% for group in groups %}
+    {{group.name}}<br>
+    <i>{{group.description}}</i>
+</div>
+
+{% endfor %}
+
+
+{% endblock %}

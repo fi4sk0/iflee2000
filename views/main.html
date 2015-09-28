@@ -1,45 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8"/>
     <title>{% block title %}Supertiny Groupware{% endblock %}</title>
     <style>
-      input {
-        display: block;
-      }
+        input {
+            display: block;
+        }
     </style>
-  </head>
+</head>
 
-  <body>
+<body>
 
-  <div class="content">
-    {% block maincontent %}
-
-    {% endblock %}
-  </div>
-
-  <div>
+<div>
     <footer>
-      <hr/>
-      <p>
-        {% if not user %}
-          <a href="/login">Login (and forgot password)</a>
-        {% else %}
-          Logged in as <span style="background-color: OldLace">{{ user.name }}</span> | <a href="/logout">Logout</a>
-        {% endif %}
-        |
-        <a href="/">Home</a>
-        |
-        <a href="/signup">New user</a>
-        |
-        {% if user %}
-        <a href="/authenticated">Myself</a>
-        |
-        {% endif %}
-      </p>
+        <div class="content">
+            {% block maincontent %}
+
+            {% endblock %}
+        </div>
+        <hr/>
+        <p>
+            {% if not user %}
+            <a href="/login">Login (and forgot password)</a>
+            {% else %}
+            Logged in as <span style="background-color: OldLace">{{ user.name }}</span> | <a href="/logout">Logout</a>
+            {% endif %}
+            |
+            <a href="/">Home</a>
+            |
+            <a href="/signup">New user</a>
+            |
+            {% if user %}
+            <a href="/authenticated">Myself</a>
+            |
+            <a href="/creategroup">Create Group</a>
+            |
+            {% endif %}
+            <a href="/listgroups">List groups</a>
+            |
+        </p>
     </footer>
-  </div>
+</div>
 
-
-  </body>
+</body>
 </html>

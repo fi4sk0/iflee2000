@@ -15,6 +15,9 @@ from webapp2_extras.auth import InvalidPasswordError
 
 from models import Group
 from models import GroupMembership
+from models import Message
+
+import inspect
 
 def user_required(handler):
     """
@@ -67,6 +70,7 @@ class BaseHandler(webapp2.RequestHandler):
 
         It is consistent with config['webapp2_extras.auth']['user_model'], if set.
         """
+
         return self.auth.store.user_model
 
     @webapp2.cached_property
@@ -275,10 +279,10 @@ class CreateGroupHandler(BaseHandler):
 
     @user_required
     def post(self):
-        groupname = self.request.get('groupname')
+        name = self.request.get('name')
         description = self.request.get('description')
 
-        newGroup = Group(groupname = groupname, description = description)
+        newGroup = Group(name = name, description = description)
         newGroup.put()
 
         newGroupMembership = GroupMembership()
@@ -296,9 +300,60 @@ class ListGroupsHandler(BaseHandler):
         query = Group.query()
         groups = query.fetch()
         params = {'groups': groups}
+        print(groups)
         self.render_template('listgroups.html', params=params)
 
+class ShowGroupHandler(BaseHandler):
 
+    def get(self, *args, **kwargs):
+        groupname = kwargs['groupname']
+        query = Group.query(Group.name == groupname)
+        groups = query.fetch()
+        if len(groups) == 1:
+            thisGroup = groups[0]
+        else:
+            thisGroup = None
+
+        params = dict()
+        params['group'] = thisGroup
+
+        user = self.user
+        if user:
+            memberships = GroupMembership.query(GroupMembership.userKey == user.key,
+                                                GroupMembership.groupKey == thisGroup.key).fetch()
+            membership = memberships[0]
+            params['groupmembership'] = membership
+
+        if thisGroup:
+            messagesQuery = Message.query(ancestor=thisGroup.key).order(Message.created)
+            messages = messagesQuery.fetch()
+            userKeys = []
+            for message in messages:
+                userKeys.append(message.userKey)
+
+            users = ndb.get_multi(userKeys)
+
+            params['messages'] = zip(messages, users)
+
+        self.render_template('showgroup.html', params=params)
+
+    def post(self, *args, **kwargs):
+        groupname = kwargs['groupname']
+        query = Group.query(Group.name == groupname)
+        groups = query.fetch()
+        if len(groups) == 1:
+            thisGroup = groups[0]
+        else:
+            thisGroup = None
+
+        user = self.user
+
+        if user:
+            print(self.request.get('message'))
+            newMessage = Message(parent=thisGroup.key, userKey=user.key, text=self.request.get('message'))
+            newMessage.put()
+
+        self.redirect('/showgroup/' + groupname)
 
 
 config = {
@@ -322,7 +377,8 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/forgot', ForgotPasswordHandler, name='forgot'),
     webapp2.Route('/authenticated', AuthenticatedHandler, name='authenticated'),
     webapp2.Route('/creategroup', CreateGroupHandler, name='creategroup'),
-    webapp2.Route('/listgroups', ListGroupsHandler, name='listgroups')
+    webapp2.Route('/listgroups', ListGroupsHandler, name='listgroups'),
+    webapp2.Route('/showgroup/<groupname:.+>', ShowGroupHandler)
 
 ], debug=True, config=config)
 

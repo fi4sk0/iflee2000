@@ -1,0 +1,27 @@
+body {
+    font-family: Verdana, Helvetica, sans-serif;
+    background-color: #DDDDDD; }
+
+.group {
+    background-color: #EEEEEE;
+    border-style: dotted;
+    border-width: thin;
+    padding: 5pt;
+    margin: 5pt; }
+
+.discussion {
+    background-color: #EEEEEE;
+    border-style: dotted;
+    border-width: thin;
+    padding: 5pt;
+    margin: 5pt; }
+
+.message1 {
+    background-color: #DDDDDD;
+    padding: 5pt;
+    margin: 5pt; }
+
+.message2 {
+    background-color: #EAEAEA;
+    padding: 5pt;
+    margin: 5pt; }

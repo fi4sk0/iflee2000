@@ -6,12 +6,18 @@
 
 <h1>List of groups</h1>
 
-<div class="group">
 {% for group in groups %}
+
+<div class="group">
     {{group.name}}<br>
     <i>{{group.description}}</i>
+    <a href="showgroup/{{group.name}}">Show</a>
 </div>
 
+{% empty %}
+    <div class="group">
+        Sorry, no groups to show yet. Click <a href="/creategroup">here</a> to create one.
+    </div>
 {% endfor %}
 
 

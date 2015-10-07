@@ -39,8 +39,9 @@ class CreateGroupHandler(BaseHandler):
     def post(self):
         name = self.request.get('name')
         description = self.request.get('description')
+        privateDescription = self.request.get('private_description')
 
-        newGroup = Group(name = name, description = description)
+        newGroup = Group(name=name, description=description, privateDescription=privateDescription)
         newGroup.put()
 
         newGroupMembership = GroupMembership()
@@ -193,7 +194,7 @@ class AcceptMemberHandler(BaseHandler):
                 requestingUsersMembership[0].isPending = False
                 requestingUsersMembership[0].put()
 
-        self.redirect('/{groupname}/show/'.format(groupname = self.group.name))
+        self.redirect('/{groupname}/show'.format(groupname = self.group.name))
 
 
 class ShowGroupHandler(BaseHandler):
@@ -219,6 +220,7 @@ class ShowGroupHandler(BaseHandler):
 
         users = ndb.get_multi(userKeys)
         params['messages'] = zip(messages, users)
+        params['groupmembership'] = self.group_membership
 
         if self.group_membership.isModerator:
             requestsQuery = GroupMembership.query(GroupMembership.groupKey == self.group.key,

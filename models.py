@@ -40,7 +40,7 @@ class User(webapp2_extras.appengine.auth.models.User):
 class Group(ndb.Model):
     name = ndb.StringProperty()
     description = ndb.TextProperty()
-    privateDescription = ndb.TextProperty()
+    privateDescription = ndb.TextProperty(default='')
 
 class GroupMembership(ndb.Model):
     groupKey = ndb.KeyProperty()

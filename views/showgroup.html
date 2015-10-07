@@ -4,23 +4,23 @@
 
 {% block maincontent %}
 
-<h1>{{group.name}}</h1>
-{% if groupmembership.isAdministrator or groupmembership.isModerator %}
-(You are:
-    {% if groupmembership.isAdministrator %}
-    admin
-    {% endif %}
-    {% if groupmembership.isModerator %}
-    {% if groupmembership.isAdministrator %}
-,
-    {% endif %}
-moderator
-    {% endif %})
-{% endif %}
-
-
 <div class="group">
-    <i>{{group.description}}</i>
+    <h1>{{group.name}}</h1>
+    {% if groupmembership.isAdministrator or groupmembership.isModerator %}
+    (You are:
+        {% if groupmembership.isAdministrator %}
+        admin
+        {% endif %}
+        {% if groupmembership.isModerator %}
+        {% if groupmembership.isAdministrator %}
+    ,
+        {% endif %}
+    moderator
+        {% endif %})
+    <br>
+    {% endif %}
+
+    <i>{{group.privateDescription}}</i>
 </div>
 
 <div class="discussion">
@@ -42,6 +42,7 @@ moderator
     </form>
 </div>
 
+{% if groupmembership.isModerator or groupmembership.isAdministrator %}
 <div class="group_membership_requests">
     <h2>Mitgliedschaftsanträge</h2>
     {% for request in member_requests %}
@@ -57,7 +58,7 @@ moderator
     {% endfor %}
 
 </div>
-
+{% endif %}
 
 
 {% endblock %}

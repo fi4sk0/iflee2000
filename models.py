@@ -40,14 +40,17 @@ class User(webapp2_extras.appengine.auth.models.User):
 class Group(ndb.Model):
     name = ndb.StringProperty()
     description = ndb.TextProperty()
+    privateDescription = ndb.TextProperty()
 
 class GroupMembership(ndb.Model):
     groupKey = ndb.KeyProperty()
     userKey = ndb.KeyProperty()
     isAdministrator = ndb.BooleanProperty()
     isModerator = ndb.BooleanProperty()
+    isPending = ndb.BooleanProperty()
 
 class Event(ndb.Model):
+    organizerKey = ndb.UserProperty()
     name = ndb.StringProperty()
     description = ndb.TextProperty()
     location = ndb.StringProperty()
@@ -60,6 +63,7 @@ class Message(ndb.Model):
     created = ndb.DateTimeProperty(auto_now_add=True)
     text = ndb.TextProperty()
 
-class EventInterest(ndb.Model):
+class EventMembership(ndb.Model):
     eventKey = ndb.KeyProperty()
     userKey = ndb.KeyProperty()
+    isPending = ndb.KeyProperty()

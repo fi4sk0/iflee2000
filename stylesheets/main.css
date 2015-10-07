@@ -16,6 +16,13 @@ body {
     padding: 5pt;
     margin: 5pt; }
 
+.group_membership_requests {
+    background-color: #EEEEEE;
+    border-style: dotted;
+    border-width: thin;
+    padding: 5pt;
+    margin: 5pt; }
+
 .message1 {
     background-color: #DDDDDD;
     padding: 5pt;

@@ -24,7 +24,7 @@ moderator
 </div>
 
 <div class="discussion">
-    <h2>Discussion</h2>
+    <h2>Diskussion</h2>
 
     {% for message, user in messages %}
         <div class="{% cycle 'message1' 'message2' %}">
@@ -36,10 +36,26 @@ moderator
         <div class="message1">No messages, yet</div>
     {% endfor %}
 
-    <form action="/showgroup/{{group.name}}" method="POST">
+    <form action="/{{group.name}}/show" method="POST">
         <input type="textfield" name="message" />
         <input type="submit" value="Submit" />
     </form>
+</div>
+
+<div class="group_membership_requests">
+    <h2>Mitgliedschaftsanträge</h2>
+    {% for request in member_requests %}
+        <div class="group_membership_request">
+            {{request.name}} <a href="/{{group.name}}/accept/{{request.get_id}}">Akzeptieren</a>
+            |
+            <a href="/{{group.name}}/refuse/{{request.get_id}}">Ablehnen</a>
+
+
+        </div>
+    {% empty %}
+        <div class="message1">Keine User wollen in die Gruppe</div>
+    {% endfor %}
+
 </div>
 
 

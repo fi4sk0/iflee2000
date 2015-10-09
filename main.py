@@ -41,6 +41,13 @@ class CreateGroupHandler(BaseHandler):
         description = self.request.get('description')
         privateDescription = self.request.get('private_description')
 
+        # Check if group name already exists
+        existingGroups = Group.query(Group.name==name).fetch()
+        if len(existingGroups) > 0:
+            self.display_message('A group with this name already exists')
+            return
+
+
         newGroup = Group(name=name, description=description, privateDescription=privateDescription)
         newGroup.put()
 
